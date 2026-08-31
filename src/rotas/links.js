@@ -9,18 +9,34 @@ let proximoId = 1;
 
 // GET /links — lista todos os links.
 router.get("/", (req, res) => {
-  // TODO (Tarefa B): responda com status 200 e o array `links`.
-  res.status(501).json({ erro: "não implementado" });
+  // Responde com status 200 e o array de links
+  res.status(200).json(links);
 });
 
 // POST /links — cria um link { titulo, url } (ambos TEXTO/string).
 router.post("/", (req, res) => {
-  // TODO (Tarefa B):
-  //  1. Leia titulo (texto) e url (texto) de req.body.
-  //  2. Se faltar titulo OU url, responda 400.
-  //  3. Crie { id: proximoId++, titulo, url }, adicione em `links`
-  //     e responda 201 com o link criado.
-  res.status(501).json({ erro: "não implementado" });
+  // Lê titulo e url do corpo da requisição
+  const { titulo, url } = req.body;
+
+  // Verifica se titulo ou url estão faltando
+  if (!titulo || !url) {
+    return res.status(400).json({
+      erro: "titulo e url são obrigatórios"
+    });
+  }
+
+  // Cria o novo link
+  const novoLink = {
+    id: proximoId++,
+    titulo,
+    url
+  };
+
+  // Adiciona o link ao array
+  links.push(novoLink);
+
+  // Responde com status 201 e o link criado
+  res.status(201).json(novoLink);
 });
 
 module.exports = router;
